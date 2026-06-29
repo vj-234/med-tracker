@@ -7,76 +7,75 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #f5f5f3;
-    --surface: #ffffff;
-    --surface2: #f9f9f8;
-    --border: #e4e4e0;
-    --border-strong: #ccccc8;
-    --text: #1a1a18;
-    --text-sec: #5a5a56;
-    --text-muted: #9a9a94;
-    --accent: #2563eb;
-    --accent-bg: #eff6ff;
-    --accent-border: #bfdbfe;
-    --success: #16a34a;
-    --success-bg: #f0fdf4;
-    --success-border: #bbf7d0;
-    --warning: #d97706;
-    --warning-bg: #fffbeb;
-    --warning-border: #fde68a;
-    --danger: #dc2626;
-    --radius: 8px;
-    --radius-lg: 12px;
+    --bg: #f5f5f3; --surface: #ffffff; --surface2: #f9f9f8;
+    --border: #e4e4e0; --border-strong: #ccccc8;
+    --text: #1a1a18; --text-sec: #5a5a56; --text-muted: #9a9a94;
+    --accent: #2563eb; --accent-bg: #eff6ff; --accent-border: #bfdbfe;
+    --success: #16a34a; --success-bg: #f0fdf4; --success-border: #bbf7d0;
+    --warning: #d97706; --warning-bg: #fffbeb; --warning-border: #fde68a;
+    --danger: #dc2626; --danger-bg: #fef2f2; --danger-border: #fecaca;
+    --radius: 8px; --radius-lg: 12px;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #18181a;
-      --surface: #242428;
-      --surface2: #1e1e22;
-      --border: #38383e;
-      --border-strong: #4a4a52;
-      --text: #f0f0ee;
-      --text-sec: #a0a09c;
-      --text-muted: #686864;
-      --accent-bg: #1e3a5f;
-      --accent-border: #1d4ed8;
-      --success-bg: #14291e;
-      --success-border: #166534;
-      --warning-bg: #2a1f0a;
-      --warning-border: #92400e;
+      --bg: #18181a; --surface: #242428; --surface2: #1e1e22;
+      --border: #38383e; --border-strong: #4a4a52;
+      --text: #f0f0ee; --text-sec: #a0a09c; --text-muted: #686864;
+      --accent-bg: #1e3a5f; --accent-border: #1d4ed8;
+      --success-bg: #14291e; --success-border: #166534;
+      --warning-bg: #2a1f0a; --warning-border: #92400e;
+      --danger-bg: #2a1010; --danger-border: #991b1b;
     }
   }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* ── Auth ── */
+  #auth-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1rem; }
+  .auth-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem 1.5rem; max-width: 360px; width: 100%; text-align: center; }
+  .auth-card h1 { font-size: 1.1rem; font-weight: 600; margin-bottom: 4px; }
+  .auth-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.5; }
+  .google-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 11px 16px; background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; color: var(--text); transition: background 0.15s; }
+  .google-btn:hover { background: var(--surface2); }
+  .google-btn:disabled { opacity: 0.6; cursor: default; }
+  .auth-error { margin-top: 12px; padding: 10px 14px; background: var(--danger-bg); border: 1px solid var(--danger-border); border-radius: var(--radius); font-size: 13px; color: var(--danger); display: none; text-align: left; line-height: 1.5; }
+  .auth-note { margin-top: 14px; font-size: 11px; color: var(--text-muted); line-height: 1.6; }
+  .auth-loading { display: none; align-items: center; justify-content: center; gap: 8px; padding: 12px; font-size: 13px; color: var(--text-muted); }
+
+  /* ── App ── */
+  #app-screen { display: none; }
   .container { max-width: 600px; margin: 0 auto; padding: 1rem; }
-  header { padding: 1rem 0 0.5rem; }
-  header h1 { font-size: 1.1rem; font-weight: 600; color: var(--text); }
-  header p { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
-  .sync-row { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
-  .sync-badge { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); }
+  .top-bar { display: flex; align-items: flex-start; justify-content: space-between; padding: 1rem 0 0.5rem; }
+  .top-bar h1 { font-size: 1.05rem; font-weight: 600; }
+  .top-bar p { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+  .user-info { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+  .user-row { display: flex; align-items: center; gap: 6px; }
+  .user-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-bg); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: var(--accent); flex-shrink: 0; overflow: hidden; }
+  .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .user-name { font-size: 12px; color: var(--text-sec); max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .signout-btn { font-size: 11px; color: var(--text-muted); background: none; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; padding: 2px 8px; }
+  .signout-btn:hover { color: var(--danger); border-color: var(--danger-border); }
+  .sync-badge { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-muted); }
   .sync-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); flex-shrink: 0; }
   .sync-dot.syncing { background: var(--warning); animation: blink 1s infinite; }
   .sync-dot.err { background: var(--danger); }
   @keyframes blink { 0%,100%{opacity:1}50%{opacity:.3} }
 
-  /* Tabs */
-  .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin: 1rem 0; overflow-x: auto; }
+  .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin: 0.75rem 0; overflow-x: auto; }
   .tab { padding: 8px 14px; font-size: 13px; color: var(--text-muted); cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
   .tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
   .section { display: none; }
   .section.active { display: block; }
 
-  /* Cards */
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 10px; overflow: hidden; }
   .card-head { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border); }
   .slot-icon { font-size: 18px; }
   .slot-title { font-weight: 600; font-size: 14px; }
   .slot-prog { font-size: 12px; color: var(--accent); margin-left: auto; font-weight: 500; }
 
-  /* Med rows */
   .med-row { display: flex; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--border); gap: 10px; }
   .med-row:last-child { border-bottom: none; }
   .med-info { flex: 1; }
-  .med-name { font-size: 13px; font-weight: 500; color: var(--text); }
+  .med-name { font-size: 13px; font-weight: 500; }
   .med-note { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
   .check-col { display: flex; flex-direction: column; align-items: center; gap: 2px; }
   .check-btn { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--border-strong); background: none; cursor: pointer; font-size: 14px; color: transparent; transition: all 0.15s; flex-shrink: 0; }
@@ -85,7 +84,6 @@
   .check-time { font-size: 10px; color: var(--text-muted); min-height: 14px; text-align: center; }
   .check-time.filled { color: var(--success); font-weight: 500; }
 
-  /* History table */
   .hist-table { width: 100%; border-collapse: collapse; font-size: 12px; }
   .hist-table th { padding: 7px 10px; text-align: left; color: var(--text-muted); font-weight: 500; border-bottom: 1px solid var(--border-strong); }
   .hist-table td { padding: 7px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
@@ -95,9 +93,8 @@
   .badge-miss { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
   .badge-pend { background: var(--warning-bg); color: var(--warning); border: 1px solid var(--warning-border); }
 
-  /* Medicine list */
   .med-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px; margin-bottom: 8px; }
-  .med-card-name { font-size: 14px; font-weight: 600; color: var(--text); }
+  .med-card-name { font-size: 14px; font-weight: 600; }
   .med-card-type { font-size: 11px; color: var(--accent); background: var(--accent-bg); border: 1px solid var(--accent-border); padding: 2px 8px; border-radius: 20px; }
   .pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
   .pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
@@ -108,14 +105,13 @@
   .med-card-note { font-size: 11px; color: var(--text-sec); margin-top: 5px; }
   .med-card-dur { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
 
-  /* Progress */
   .stat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 1rem; }
   .stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; text-align: center; }
-  .stat-num { font-size: 22px; font-weight: 600; color: var(--text); }
+  .stat-num { font-size: 22px; font-weight: 600; }
   .stat-lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
   .prog-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); }
   .prog-row:last-child { border-bottom: none; }
-  .prog-name { font-size: 12px; color: var(--text); min-width: 130px; }
+  .prog-name { font-size: 12px; min-width: 130px; }
   .prog-bar-wrap { flex: 1; background: var(--bg); border-radius: 10px; height: 6px; }
   .prog-bar { height: 6px; border-radius: 10px; background: var(--accent); transition: width .4s; }
   .prog-count { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
@@ -123,210 +119,184 @@
   .physio-btn { flex: 1; padding: 8px; font-size: 13px; font-weight: 500; border: 1px solid var(--border-strong); border-radius: var(--radius); background: var(--surface); color: var(--text); cursor: pointer; }
   .physio-btn:hover { background: var(--bg); }
 
-  /* Nav buttons */
   .nav-btn { background: none; border: 1px solid var(--border-strong); border-radius: var(--radius); padding: 5px 12px; font-size: 13px; cursor: pointer; color: var(--text); }
   .nav-btn:hover { background: var(--surface2); }
   .hist-nav { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
   .hist-date { font-size: 14px; font-weight: 500; flex: 1; text-align: center; }
 
-  /* Info boxes */
   .info-box { padding: 10px 14px; border-radius: var(--radius); font-size: 12px; margin-bottom: 10px; }
   .info-warning { background: var(--warning-bg); border: 1px solid var(--warning-border); color: var(--warning); }
   .info-accent { background: var(--accent-bg); border: 1px solid var(--accent-border); color: var(--accent); }
 
-  /* Loading */
   .loading { display: flex; align-items: center; justify-content: center; padding: 3rem; color: var(--text-muted); font-size: 14px; gap: 8px; }
   .spin { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--border-strong); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Reset */
   .reset-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
   .reset-btn { font-size: 12px; padding: 6px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius); background: none; color: var(--text-sec); cursor: pointer; }
   .reset-btn:hover { background: var(--surface2); }
-
-  /* Share section */
-  .share-url-box { font-family: monospace; font-size: 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; word-break: break-all; color: var(--text); margin: 10px 0; line-height: 1.6; }
-  .copy-btn { padding: 8px 16px; background: var(--accent); color: #fff; border: none; border-radius: var(--radius); font-size: 13px; font-weight: 500; cursor: pointer; }
-  .copy-btn:hover { opacity: 0.9; }
-  .setup-steps { counter-reset: step; list-style: none; margin-top: 12px; }
-  .setup-steps li { counter-increment: step; display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text-sec); line-height: 1.5; }
-  .setup-steps li:last-child { border-bottom: none; }
-  .setup-steps li::before { content: counter(step); min-width: 22px; height: 22px; background: var(--accent-bg); color: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex-shrink: 0; margin-top: 1px; }
-  code { font-family: monospace; background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; font-size: 11px; color: var(--text); }
-
-  section-title { display: block; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
 </style>
 </head>
 <body>
-<div class="container">
-  <header>
-    <div class="sync-row">
+
+<!-- ── AUTH SCREEN ── -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <div style="font-size:2.5rem;margin-bottom:12px;">💊</div>
+    <h1>Medicine Tracker</h1>
+    <p>Mrs. Anusha Jha · Post ACL reconstruction<br>Sign in to access the tracker.</p>
+
+    <button class="google-btn" id="google-btn" onclick="signInWithGoogle()">
+      <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      Sign in with Google
+    </button>
+
+    <div class="auth-loading" id="auth-loading">
+      <span class="spin"></span> Signing in…
+    </div>
+    <div class="auth-error" id="auth-error"></div>
+    <div class="auth-note">Only authorised family members can access this tracker.<br>If you need access, contact the family.</div>
+  </div>
+</div>
+
+<!-- ── APP SCREEN ── -->
+<div id="app-screen">
+  <div class="container">
+    <div class="top-bar">
       <div>
         <h1>💊 Medicine tracker</h1>
         <p>Mrs. Anusha Jha · Post ACL reconstruction</p>
       </div>
-      <div class="sync-badge">
-        <div class="sync-dot" id="sync-dot"></div>
-        <span id="sync-label">Loading…</span>
-      </div>
-    </div>
-  </header>
-
-  <div class="tabs">
-    <button class="tab active" onclick="switchTab('log',this)">Today</button>
-    <button class="tab" onclick="switchTab('history',this)">History</button>
-    <button class="tab" onclick="switchTab('medicines',this)">Medicines</button>
-    <button class="tab" onclick="switchTab('progress',this)">Progress</button>
-    <button class="tab" onclick="switchTab('deploy',this)">Deploy &amp; Share</button>
-  </div>
-
-  <!-- TODAY -->
-  <div id="log" class="section active">
-    <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;" id="today-date-label"></p>
-    <div id="log-loading" class="loading"><span class="spin"></span> Loading…</div>
-    <div id="log-content" style="display:none">
-
-      <div class="card">
-        <div class="card-head"><span class="slot-icon">🌅</span><span class="slot-title">Morning</span><span class="slot-prog" id="prog-morning"></span></div>
-        <div class="med-row"><div class="med-info"><div class="med-name">Sompraz D 40 mg</div><div class="med-note">Before food</div></div><div class="check-col"><button class="check-btn" id="cb-sompraz-m" onclick="toggle(this,'sompraz-m')">✓</button><span class="check-time" id="ct-sompraz-m"></span></div></div>
-        <div class="med-row"><div class="med-info"><div class="med-name">Ceftum 500 mg</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-ceftum-m" onclick="toggle(this,'ceftum-m')">✓</button><span class="check-time" id="ct-ceftum-m"></span></div></div>
-        <div class="med-row"><div class="med-info"><div class="med-name">Signoflam</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-signo-m" onclick="toggle(this,'signo-m')">✓</button><span class="check-time" id="ct-signo-m"></span></div></div>
-        <div class="med-row"><div class="med-info"><div class="med-name">Disperzyme</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-disp-m" onclick="toggle(this,'disp-m')">✓</button><span class="check-time" id="ct-disp-m"></span></div></div>
-        <div class="med-row"><div class="med-info"><div class="med-name">D Well AQ</div><div class="med-note">Once a week only · after food</div></div><div class="check-col"><button class="check-btn" id="cb-dwellaq-m" onclick="toggle(this,'dwellaq-m')">✓</button><span class="check-time" id="ct-dwellaq-m"></span></div></div>
-      </div>
-
-      <div class="card">
-        <div class="card-head"><span class="slot-icon">☀️</span><span class="slot-title">Afternoon</span><span class="slot-prog" id="prog-afternoon"></span></div>
-        <div class="med-row"><div class="med-info"><div class="med-name">Disperzyme</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-disp-a" onclick="toggle(this,'disp-a')">✓</button><span class="check-time" id="ct-disp-a"></span></div></div>
-      </div>
-
-      <div class="card">
-        <div class="card-head"><span class="slot-icon">🌙</span><span class="slot-title">Night</span><span class="slot-prog" id="prog-night"></span></div>
-        <div class="med-row"><div class="med-info"><div class="med-name">Sompraz D 40 mg</div><div class="med-note">Before food</div></div><div class="check-col"><button class="check-btn" id="cb-sompraz-n" onclick="toggle(this,'sompraz-n')">✓</button><span class="check-time" id="ct-sompraz-n"></span></div></div>
-        <div class="med-row"><div class="med-info"><div class="med-name">Ceftum 500 mg</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-ceftum-n" onclick="toggle(this,'ceftum-n')">✓</button><span class="check-time" id="ct-ceftum-n"></span></div></div>
-        <div class="med-row"><div class="med-info"><div class="med-name">Signoflam</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-signo-n" onclick="toggle(this,'signo-n')">✓</button><span class="check-time" id="ct-signo-n"></span></div></div>
-        <div class="med-row"><div class="med-info"><div class="med-name">Disperzyme</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-disp-n" onclick="toggle(this,'disp-n')">✓</button><span class="check-time" id="ct-disp-n"></span></div></div>
-        <div class="med-row"><div class="med-info"><div class="med-name">Ultracet</div><div class="med-note">After food · SOS for pain</div></div><div class="check-col"><button class="check-btn" id="cb-ultracet-n" onclick="toggle(this,'ultracet-n')">✓</button><span class="check-time" id="ct-ultracet-n"></span></div></div>
-        <div class="med-row"><div class="med-info"><div class="med-name">Calcidef</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-calcidef-n" onclick="toggle(this,'calcidef-n')">✓</button><span class="check-time" id="ct-calcidef-n"></span></div></div>
-        <div class="med-row"><div class="med-info"><div class="med-name">Limcee</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-limcee-n" onclick="toggle(this,'limcee-n')">✓</button><span class="check-time" id="ct-limcee-n"></span></div></div>
-        <div class="med-row"><div class="med-info"><div class="med-name">Ecosprin 75 mg</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-ecosprin-n" onclick="toggle(this,'ecosprin-n')">✓</button><span class="check-time" id="ct-ecosprin-n"></span></div></div>
-      </div>
-
-      <div class="reset-row">
-        <button class="reset-btn" onclick="resetToday()">Reset today</button>
-        <span style="font-size:12px;color:var(--text-muted)" id="today-summary"></span>
-      </div>
-    </div>
-  </div>
-
-  <!-- HISTORY -->
-  <div id="history" class="section">
-    <div class="hist-nav">
-      <button class="nav-btn" onclick="histNav(-1)">← Prev</button>
-      <div class="hist-date" id="hist-date-label"></div>
-      <button class="nav-btn" onclick="histNav(1)">Next →</button>
-    </div>
-    <div id="hist-loading" class="loading" style="display:none"><span class="spin"></span> Loading…</div>
-    <div id="hist-content"></div>
-  </div>
-
-  <!-- MEDICINES -->
-  <div id="medicines" class="section">
-    <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">Prescription from 27 Jun 2026 · Right knee ACL reconstruction</p>
-    <div class="med-card"><div style="display:flex;align-items:center;justify-content:space-between"><span class="med-card-name">Ceftum 500 mg</span><span class="med-card-type">Antibiotic</span></div><div class="pills"><span class="pill pill-m">Morning</span><span class="pill pill-n">Night</span></div><div class="med-card-note">After food</div><div class="med-card-dur">5 days · ends ~2 Jul 2026</div></div>
-    <div class="med-card"><div style="display:flex;align-items:center;justify-content:space-between"><span class="med-card-name">Signoflam</span><span class="med-card-type">Anti-inflammatory</span></div><div class="pills"><span class="pill pill-m">Morning</span><span class="pill pill-n">Night</span></div><div class="med-card-note">After food</div><div class="med-card-dur">5 days · ends ~2 Jul 2026</div></div>
-    <div class="med-card"><div style="display:flex;align-items:center;justify-content:space-between"><span class="med-card-name">Sompraz D 40 mg</span><span class="med-card-type">Stomach protection</span></div><div class="pills"><span class="pill pill-m">Morning</span><span class="pill pill-n">Night</span></div><div class="med-card-note">Before food</div><div class="med-card-dur">5 days · ends ~2 Jul 2026</div></div>
-    <div class="med-card"><div style="display:flex;align-items:center;justify-content:space-between"><span class="med-card-name">Ultracet</span><span class="med-card-type">Painkiller</span></div><div class="pills"><span class="pill pill-n">Night</span></div><div class="med-card-note">After food · SOS for pain (max 1 extra)</div><div class="med-card-dur">5 days · ends ~2 Jul 2026</div></div>
-    <div class="med-card"><div style="display:flex;align-items:center;justify-content:space-between"><span class="med-card-name">Disperzyme</span><span class="med-card-type">Enzyme / anti-swelling</span></div><div class="pills"><span class="pill pill-m">Morning</span><span class="pill pill-a">Afternoon</span><span class="pill pill-n">Night</span></div><div class="med-card-note">After food</div><div class="med-card-dur">5 days · ends ~2 Jul 2026</div></div>
-    <div class="med-card"><div style="display:flex;align-items:center;justify-content:space-between"><span class="med-card-name">Calcidef</span><span class="med-card-type">Calcium + Vitamin D</span></div><div class="pills"><span class="pill pill-n">Night</span></div><div class="med-card-note">After food</div><div class="med-card-dur">30 days · ends ~28 Jul 2026</div></div>
-    <div class="med-card"><div style="display:flex;align-items:center;justify-content:space-between"><span class="med-card-name">Limcee</span><span class="med-card-type">Vitamin C</span></div><div class="pills"><span class="pill pill-n">Night</span></div><div class="med-card-note">After food</div><div class="med-card-dur">2 weeks · ends ~13 Jul 2026</div></div>
-    <div class="med-card"><div style="display:flex;align-items:center;justify-content:space-between"><span class="med-card-name">D Well AQ</span><span class="med-card-type">Vitamin D</span></div><div class="pills"><span class="pill pill-w">Once a week</span></div><div class="med-card-note">After food</div><div class="med-card-dur">8 weeks · ends ~24 Aug 2026</div></div>
-    <div class="med-card"><div style="display:flex;align-items:center;justify-content:space-between"><span class="med-card-name">Ecosprin 75 mg</span><span class="med-card-type">Blood thinner</span></div><div class="pills"><span class="pill pill-n">Night</span></div><div class="med-card-note">After food</div><div class="med-card-dur">2 weeks · ends ~13 Jul 2026</div></div>
-    <div class="info-box info-warning" style="margin-top:4px;">
-      <strong>Follow-up:</strong> Review with Dr. Gurpur Sunil Kini after 4 days (~3 Jul 2026) in OPD with prior appointment.
-    </div>
-  </div>
-
-  <!-- PROGRESS -->
-  <div id="progress" class="section">
-    <div class="stat-grid">
-      <div class="stat-box"><div class="stat-num" id="s-taken">—</div><div class="stat-lbl">Taken today</div></div>
-      <div class="stat-box"><div class="stat-num">14</div><div class="stat-lbl">Total today</div></div>
-      <div class="stat-box"><div class="stat-num" id="s-pct">—</div><div class="stat-lbl">Done today</div></div>
-    </div>
-
-    <div style="margin-bottom:8px;font-size:13px;font-weight:600;">Medicine course progress</div>
-    <div class="card" style="padding:12px 14px;">
-      <div class="prog-row"><div class="prog-name">5-day meds</div><div class="prog-bar-wrap"><div class="prog-bar" id="pb-5day" style="width:0%"></div></div><div class="prog-count" id="pc-5day">—</div></div>
-      <div class="prog-row"><div class="prog-name">Calcidef (30 days)</div><div class="prog-bar-wrap"><div class="prog-bar" id="pb-calcidef" style="width:0%"></div></div><div class="prog-count" id="pc-calcidef">—</div></div>
-      <div class="prog-row"><div class="prog-name">Limcee / Ecosprin (2 wks)</div><div class="prog-bar-wrap"><div class="prog-bar" id="pb-2wk" style="width:0%"></div></div><div class="prog-count" id="pc-2wk">—</div></div>
-      <div class="prog-row"><div class="prog-name">D Well AQ (8 wks)</div><div class="prog-bar-wrap"><div class="prog-bar" id="pb-8wk" style="width:0%"></div></div><div class="prog-count" id="pc-8wk">—</div></div>
-    </div>
-
-    <div style="margin:12px 0 8px;font-size:13px;font-weight:600;">Physiotherapy — 60 sessions</div>
-    <div class="card" style="padding:12px 14px;">
-      <div style="font-size:13px;color:var(--text-sec);margin-bottom:8px;">Sessions completed</div>
-      <div class="prog-bar-wrap" style="height:8px;margin-bottom:6px;"><div class="prog-bar" id="pb-physio" style="width:0%;height:8px;"></div></div>
-      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:10px;"><span id="physio-label">0 done</span><span>60 total</span></div>
-      <div class="physio-controls">
-        <button class="physio-btn" onclick="changePhysio(-1)">− Session</button>
-        <button class="physio-btn" onclick="changePhysio(1)">+ Session</button>
+      <div class="user-info">
+        <div class="user-row">
+          <div class="user-avatar" id="user-avatar"></div>
+          <span class="user-name" id="user-name"></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="sync-badge">
+            <div class="sync-dot" id="sync-dot"></div>
+            <span id="sync-label">Loading…</span>
+          </div>
+          <button class="signout-btn" onclick="doSignOut()">Sign out</button>
+        </div>
       </div>
     </div>
 
-    <div style="margin:12px 0 8px;font-size:13px;font-weight:600;">Prescribed exercises</div>
-    <div class="card" style="padding:12px 14px;font-size:13px;color:var(--text-sec);line-height:2;">
-      Non-weight bearing mobilisation with walker<br>
-      Ankle pumps<br>
-      Knee ROM (range of motion)<br>
-      Bilateral quadriceps &amp; hamstring strengthening
-    </div>
-  </div>
-
-  <!-- DEPLOY & SHARE -->
-  <div id="deploy" class="section">
-    <div class="info-box info-accent" style="margin-bottom:12px;">
-      This HTML file is a complete self-contained app. Host it for free on <strong>Netlify Drop</strong> in under 2 minutes — no account needed.
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('log',this)">Today</button>
+      <button class="tab" onclick="switchTab('history',this)">History</button>
+      <button class="tab" onclick="switchTab('medicines',this)">Medicines</button>
+      <button class="tab" onclick="switchTab('progress',this)">Progress</button>
     </div>
 
-    <div style="font-size:13px;font-weight:600;margin-bottom:8px;">Option A — Netlify Drop (easiest, 2 min)</div>
-    <ul class="setup-steps">
-      <li>Download the <code>medicine-tracker.html</code> file from this chat</li>
-      <li>Go to <strong>drop.netlify.com</strong> in your browser</li>
-      <li>Drag and drop the HTML file onto the page</li>
-      <li>Netlify gives you a free link like <code>https://abc123.netlify.app</code> — share it with anyone</li>
-    </ul>
-
-    <div style="font-size:13px;font-weight:600;margin:16px 0 8px;">Option B — GitHub Pages (permanent, free)</div>
-    <ul class="setup-steps">
-      <li>Create a free account at <strong>github.com</strong></li>
-      <li>Create a new repository, upload <code>medicine-tracker.html</code>, rename it to <code>index.html</code></li>
-      <li>Go to Settings → Pages → select main branch → Save</li>
-      <li>Your app is live at <code>https://yourusername.github.io/repo-name</code></li>
-    </ul>
-
-    <div style="font-size:13px;font-weight:600;margin:16px 0 8px;">About data storage</div>
-    <div style="font-size:13px;color:var(--text-sec);line-height:1.7;">
-      This app uses <strong>Firebase Firestore</strong> (Google's free database) to store all medicine logs in the cloud. The free tier supports up to 50,000 reads and 20,000 writes per day — more than enough for this tracker.<br><br>
-      <strong>Setup (one time, ~5 min):</strong>
+    <!-- TODAY -->
+    <div id="log" class="section active">
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;" id="today-date-label"></p>
+      <div id="log-loading" class="loading"><span class="spin"></span> Loading…</div>
+      <div id="log-content" style="display:none">
+        <div class="card">
+          <div class="card-head"><span class="slot-icon">🌅</span><span class="slot-title">Morning</span><span class="slot-prog" id="prog-morning"></span></div>
+          <div class="med-row"><div class="med-info"><div class="med-name">Sompraz D 40 mg</div><div class="med-note">Before food</div></div><div class="check-col"><button class="check-btn" id="cb-sompraz-m" onclick="toggle(this,'sompraz-m')">✓</button><span class="check-time" id="ct-sompraz-m"></span></div></div>
+          <div class="med-row"><div class="med-info"><div class="med-name">Ceftum 500 mg</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-ceftum-m" onclick="toggle(this,'ceftum-m')">✓</button><span class="check-time" id="ct-ceftum-m"></span></div></div>
+          <div class="med-row"><div class="med-info"><div class="med-name">Signoflam</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-signo-m" onclick="toggle(this,'signo-m')">✓</button><span class="check-time" id="ct-signo-m"></span></div></div>
+          <div class="med-row"><div class="med-info"><div class="med-name">Disperzyme</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-disp-m" onclick="toggle(this,'disp-m')">✓</button><span class="check-time" id="ct-disp-m"></span></div></div>
+          <div class="med-row"><div class="med-info"><div class="med-name">D Well AQ</div><div class="med-note">Once a week only · after food</div></div><div class="check-col"><button class="check-btn" id="cb-dwellaq-m" onclick="toggle(this,'dwellaq-m')">✓</button><span class="check-time" id="ct-dwellaq-m"></span></div></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="slot-icon">☀️</span><span class="slot-title">Afternoon</span><span class="slot-prog" id="prog-afternoon"></span></div>
+          <div class="med-row"><div class="med-info"><div class="med-name">Disperzyme</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-disp-a" onclick="toggle(this,'disp-a')">✓</button><span class="check-time" id="ct-disp-a"></span></div></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="slot-icon">🌙</span><span class="slot-title">Night</span><span class="slot-prog" id="prog-night"></span></div>
+          <div class="med-row"><div class="med-info"><div class="med-name">Sompraz D 40 mg</div><div class="med-note">Before food</div></div><div class="check-col"><button class="check-btn" id="cb-sompraz-n" onclick="toggle(this,'sompraz-n')">✓</button><span class="check-time" id="ct-sompraz-n"></span></div></div>
+          <div class="med-row"><div class="med-info"><div class="med-name">Ceftum 500 mg</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-ceftum-n" onclick="toggle(this,'ceftum-n')">✓</button><span class="check-time" id="ct-ceftum-n"></span></div></div>
+          <div class="med-row"><div class="med-info"><div class="med-name">Signoflam</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-signo-n" onclick="toggle(this,'signo-n')">✓</button><span class="check-time" id="ct-signo-n"></span></div></div>
+          <div class="med-row"><div class="med-info"><div class="med-name">Disperzyme</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-disp-n" onclick="toggle(this,'disp-n')">✓</button><span class="check-time" id="ct-disp-n"></span></div></div>
+          <div class="med-row"><div class="med-info"><div class="med-name">Ultracet</div><div class="med-note">After food · SOS for pain</div></div><div class="check-col"><button class="check-btn" id="cb-ultracet-n" onclick="toggle(this,'ultracet-n')">✓</button><span class="check-time" id="ct-ultracet-n"></span></div></div>
+          <div class="med-row"><div class="med-info"><div class="med-name">Calcidef</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-calcidef-n" onclick="toggle(this,'calcidef-n')">✓</button><span class="check-time" id="ct-calcidef-n"></span></div></div>
+          <div class="med-row"><div class="med-info"><div class="med-name">Limcee</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-limcee-n" onclick="toggle(this,'limcee-n')">✓</button><span class="check-time" id="ct-limcee-n"></span></div></div>
+          <div class="med-row"><div class="med-info"><div class="med-name">Ecosprin 75 mg</div><div class="med-note">After food</div></div><div class="check-col"><button class="check-btn" id="cb-ecosprin-n" onclick="toggle(this,'ecosprin-n')">✓</button><span class="check-time" id="ct-ecosprin-n"></span></div></div>
+        </div>
+        <div class="reset-row">
+          <button class="reset-btn" onclick="resetToday()">Reset today</button>
+          <span style="font-size:12px;color:var(--text-muted)" id="today-summary"></span>
+        </div>
+      </div>
     </div>
-    <ul class="setup-steps">
-      <li>Go to <strong>console.firebase.google.com</strong>, create a free project</li>
-      <li>Add a Web App, copy the <code>firebaseConfig</code> object</li>
-      <li>In this HTML file, replace the <code>FIREBASE_CONFIG</code> placeholder near the bottom of the <code>&lt;script&gt;</code> with your config</li>
-      <li>Enable Firestore Database in the Firebase console (start in test mode)</li>
-      <li>Deploy the updated file — all devices will now share data automatically</li>
-    </ul>
 
-    <div style="font-size:12px;color:var(--text-muted);margin-top:12px;padding:10px;background:var(--surface2);border-radius:var(--radius);border:1px solid var(--border);">
-      Until Firebase is configured, the app falls back to <strong>localStorage</strong> (works on a single browser, no sharing). Once Firebase is set up, all data syncs across devices in real time.
+    <!-- HISTORY -->
+    <div id="history" class="section">
+      <div class="hist-nav">
+        <button class="nav-btn" onclick="histNav(-1)">← Prev</button>
+        <div class="hist-date" id="hist-date-label"></div>
+        <button class="nav-btn" onclick="histNav(1)">Next →</button>
+      </div>
+      <div id="hist-loading" class="loading" style="display:none"><span class="spin"></span> Loading…</div>
+      <div id="hist-content"></div>
     </div>
-  </div>
-</div>
+
+    <!-- MEDICINES -->
+    <div id="medicines" class="section">
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">Prescription from 27 Jun 2026 · Right knee ACL reconstruction</p>
+      <div class="med-card"><div style="display:flex;align-items:center;justify-content:space-between"><span class="med-card-name">Ceftum 500 mg</span><span class="med-card-type">Antibiotic</span></div><div class="pills"><span class="pill pill-m">Morning</span><span class="pill pill-n">Night</span></div><div class="med-card-note">After food</div><div class="med-card-dur">5 days · ends ~2 Jul 2026</div></div>
+      <div class="med-card"><div style="display:flex;align-items:center;justify-content:space-between"><span class="med-card-name">Signoflam</span><span class="med-card-type">Anti-inflammatory</span></div><div class="pills"><span class="pill pill-m">Morning</span><span class="pill pill-n">Night</span></div><div class="med-card-note">After food</div><div class="med-card-dur">5 days · ends ~2 Jul 2026</div></div>
+      <div class="med-card"><div style="display:flex;align-items:center;justify-content:space-between"><span class="med-card-name">Sompraz D 40 mg</span><span class="med-card-type">Stomach protection</span></div><div class="pills"><span class="pill pill-m">Morning</span><span class="pill pill-n">Night</span></div><div class="med-card-note">Before food</div><div class="med-card-dur">5 days · ends ~2 Jul 2026</div></div>
+      <div class="med-card"><div style="display:flex;align-items:center;justify-content:space-between"><span class="med-card-name">Ultracet</span><span class="med-card-type">Painkiller</span></div><div class="pills"><span class="pill pill-n">Night</span></div><div class="med-card-note">After food · SOS for pain (max 1 extra)</div><div class="med-card-dur">5 days · ends ~2 Jul 2026</div></div>
+      <div class="med-card"><div style="display:flex;align-items:center;justify-content:space-between"><span class="med-card-name">Disperzyme</span><span class="med-card-type">Enzyme / anti-swelling</span></div><div class="pills"><span class="pill pill-m">Morning</span><span class="pill pill-a">Afternoon</span><span class="pill pill-n">Night</span></div><div class="med-card-note">After food</div><div class="med-card-dur">5 days · ends ~2 Jul 2026</div></div>
+      <div class="med-card"><div style="display:flex;align-items:center;justify-content:space-between"><span class="med-card-name">Calcidef</span><span class="med-card-type">Calcium + Vitamin D</span></div><div class="pills"><span class="pill pill-n">Night</span></div><div class="med-card-note">After food</div><div class="med-card-dur">30 days · ends ~28 Jul 2026</div></div>
+      <div class="med-card"><div style="display:flex;align-items:center;justify-content:space-between"><span class="med-card-name">Limcee</span><span class="med-card-type">Vitamin C</span></div><div class="pills"><span class="pill pill-n">Night</span></div><div class="med-card-note">After food</div><div class="med-card-dur">2 weeks · ends ~13 Jul 2026</div></div>
+      <div class="med-card"><div style="display:flex;align-items:center;justify-content:space-between"><span class="med-card-name">D Well AQ</span><span class="med-card-type">Vitamin D</span></div><div class="pills"><span class="pill pill-w">Once a week</span></div><div class="med-card-note">After food</div><div class="med-card-dur">8 weeks · ends ~24 Aug 2026</div></div>
+      <div class="med-card"><div style="display:flex;align-items:center;justify-content:space-between"><span class="med-card-name">Ecosprin 75 mg</span><span class="med-card-type">Blood thinner</span></div><div class="pills"><span class="pill pill-n">Night</span></div><div class="med-card-note">After food</div><div class="med-card-dur">2 weeks · ends ~13 Jul 2026</div></div>
+      <div class="info-box info-warning" style="margin-top:4px;"><strong>Follow-up:</strong> Review with Dr. Gurpur Sunil Kini after 4 days (~3 Jul 2026) in OPD with prior appointment.</div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div id="progress" class="section">
+      <div class="stat-grid">
+        <div class="stat-box"><div class="stat-num" id="s-taken">—</div><div class="stat-lbl">Taken today</div></div>
+        <div class="stat-box"><div class="stat-num">14</div><div class="stat-lbl">Total today</div></div>
+        <div class="stat-box"><div class="stat-num" id="s-pct">—</div><div class="stat-lbl">Done today</div></div>
+      </div>
+      <div style="font-size:13px;font-weight:600;margin-bottom:8px;">Medicine course progress</div>
+      <div class="card" style="padding:12px 14px;">
+        <div class="prog-row"><div class="prog-name">5-day meds</div><div class="prog-bar-wrap"><div class="prog-bar" id="pb-5day" style="width:0%"></div></div><div class="prog-count" id="pc-5day">—</div></div>
+        <div class="prog-row"><div class="prog-name">Calcidef (30 days)</div><div class="prog-bar-wrap"><div class="prog-bar" id="pb-calcidef" style="width:0%"></div></div><div class="prog-count" id="pc-calcidef">—</div></div>
+        <div class="prog-row"><div class="prog-name">Limcee / Ecosprin (2 wks)</div><div class="prog-bar-wrap"><div class="prog-bar" id="pb-2wk" style="width:0%"></div></div><div class="prog-count" id="pc-2wk">—</div></div>
+        <div class="prog-row"><div class="prog-name">D Well AQ (8 wks)</div><div class="prog-bar-wrap"><div class="prog-bar" id="pb-8wk" style="width:0%"></div></div><div class="prog-count" id="pc-8wk">—</div></div>
+      </div>
+      <div style="font-size:13px;font-weight:600;margin:12px 0 8px;">Physiotherapy — 60 sessions</div>
+      <div class="card" style="padding:12px 14px;">
+        <div style="font-size:13px;color:var(--text-sec);margin-bottom:8px;">Sessions completed</div>
+        <div class="prog-bar-wrap" style="height:8px;margin-bottom:6px;"><div class="prog-bar" id="pb-physio" style="width:0%;height:8px;"></div></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted);margin-bottom:10px;"><span id="physio-label">0 done</span><span>60 total</span></div>
+        <div class="physio-controls">
+          <button class="physio-btn" onclick="changePhysio(-1)">− Session</button>
+          <button class="physio-btn" onclick="changePhysio(1)">+ Session</button>
+        </div>
+      </div>
+      <div style="font-size:13px;font-weight:600;margin:12px 0 8px;">Prescribed exercises</div>
+      <div class="card" style="padding:12px 14px;font-size:13px;color:var(--text-sec);line-height:2;">
+        Non-weight bearing mobilisation with walker<br>Ankle pumps<br>Knee ROM (range of motion)<br>Bilateral quadriceps &amp; hamstring strengthening
+      </div>
+    </div>
+
+  </div><!-- /container -->
+</div><!-- /app-screen -->
 
 <script type="module">
-// ─── Firebase setup ───────────────────────────────────────────────────────────
-// Replace this object with your own Firebase config from console.firebase.google.com
+import { initializeApp }                              from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+                                                      from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { getFirestore, doc, getDoc, setDoc }          from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+// ═══════════════════════════════════════════════════════════
+//  STEP 1 — Paste your Firebase config here
+// ═══════════════════════════════════════════════════════════
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyDQvKvVSA-wHp7NYtWY6qAavwrMTnVUobo",
   authDomain: "anusha-med-tracker.firebaseapp.com",
@@ -336,44 +306,98 @@ const FIREBASE_CONFIG = {
   appId: "1:157882401462:web:4cb18e58cf68efbf391c17"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// ═══════════════════════════════════════════════════════════
+//  STEP 2 — Add allowed Gmail addresses here
+// ═══════════════════════════════════════════════════════════
+const ALLOWED_EMAILS = [
+  'anusha.jha@gmail.com',
+  // 'caregiver@gmail.com',   ← add more here
+];
+// ═══════════════════════════════════════════════════════════
 
-// ─── Data layer: Firebase if configured, else localStorage ───────────────────
-let db = null;
-
-async function initFirebase() {
-  if (!FIREBASE_CONFIG) return false;
-  try {
-    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
-    const { getFirestore, doc, getDoc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-    const app = initializeApp(FIREBASE_CONFIG);
-    db = getFirestore(app);
-    window._fs = { doc, getDoc, setDoc };
-    return true;
-  } catch(e) { console.error('Firebase init failed', e); return false; }
-}
-
-async function dbGet(key) {
-  if (db) {
-    const { doc, getDoc } = window._fs;
-    const snap = await getDoc(doc(db, 'tracker', key));
-    return snap.exists() ? snap.data().value : null;
-  }
-  return localStorage.getItem(key);
-}
-
-async function dbSet(key, value) {
-  if (db) {
-    const { doc, setDoc } = window._fs;
-    await setDoc(doc(db, 'tracker', key), { value });
-  } else {
-    localStorage.setItem(key, value);
-  }
-}
-
-// ─── App data ─────────────────────────────────────────────────────────────────
 const START = new Date('2026-06-28');
+const app   = initializeApp(FIREBASE_CONFIG);
+const auth  = getAuth(app);
+const db    = getFirestore(app);
+
+// ── Auth ──────────────────────────────────────────────────
+const provider = new GoogleAuthProvider();
+
+window.signInWithGoogle = async function() {
+  const btn = document.getElementById('google-btn');
+  const loading = document.getElementById('auth-loading');
+  btn.style.display = 'none';
+  loading.style.display = 'flex';
+  hideAuthError();
+  try {
+    await signInWithPopup(auth, provider);
+    // onAuthStateChanged handles the rest
+  } catch(e) {
+    btn.style.display = 'flex';
+    loading.style.display = 'none';
+    if (e.code !== 'auth/popup-closed-by-user') {
+      showAuthError('Sign-in failed: ' + (e.message || 'Please try again.'));
+    }
+  }
+};
+
+window.doSignOut = async function() {
+  await signOut(auth);
+  document.getElementById('auth-screen').style.display = 'flex';
+  document.getElementById('app-screen').style.display  = 'none';
+  document.getElementById('google-btn').style.display  = 'flex';
+  document.getElementById('auth-loading').style.display = 'none';
+  hideAuthError();
+};
+
+function showAuthError(msg) {
+  const el = document.getElementById('auth-error');
+  el.textContent = msg; el.style.display = 'block';
+}
+function hideAuthError() {
+  document.getElementById('auth-error').style.display = 'none';
+}
+
+onAuthStateChanged(auth, user => {
+  if (user) {
+    if (!ALLOWED_EMAILS.includes(user.email)) {
+      signOut(auth);
+      document.getElementById('google-btn').style.display  = 'flex';
+      document.getElementById('auth-loading').style.display = 'none';
+      showAuthError(`Access denied for ${user.email}. Contact the family to request access.`);
+      return;
+    }
+    // Allowed — show the app
+    document.getElementById('auth-screen').style.display = 'none';
+    document.getElementById('app-screen').style.display  = 'block';
+    // Set avatar
+    const av = document.getElementById('user-avatar');
+    if (user.photoURL) av.innerHTML = `<img src="${user.photoURL}" alt="">`;
+    else av.textContent = (user.displayName || user.email)[0].toUpperCase();
+    document.getElementById('user-name').textContent = user.displayName || user.email;
+    loadToday();
+    initPhysio();
+  }
+});
+
+// ── Firestore helpers ─────────────────────────────────────
+function setSyncState(state) {
+  const dot = document.getElementById('sync-dot');
+  const lbl = document.getElementById('sync-label');
+  dot.className = 'sync-dot' + (state==='saving'?' syncing':state==='error'?' err':'');
+  lbl.textContent = state==='saving'?'Saving…':state==='error'?'Error':'Saved ✓';
+}
+async function dbGet(key) {
+  const snap = await getDoc(doc(db, 'tracker', key));
+  return snap.exists() ? snap.data().value : null;
+}
+async function dbSet(key, value) {
+  setSyncState('saving');
+  try { await setDoc(doc(db, 'tracker', key), { value }); setSyncState('saved'); }
+  catch(e) { setSyncState('error'); throw e; }
+}
+
+// ── Med data ──────────────────────────────────────────────
 const ALL_MEDS = [
   { id:'sompraz-m',  name:'Sompraz D 40 mg', slot:'morning',   note:'Before food' },
   { id:'ceftum-m',   name:'Ceftum 500 mg',   slot:'morning',   note:'After food' },
@@ -399,36 +423,23 @@ const SLOTS = {
 function todayKey() { return new Date().toISOString().slice(0,10); }
 function dateKey(d) { return d.toISOString().slice(0,10); }
 function fmtTime(iso) { return new Date(iso).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true}); }
-function fmtDate(d) { return d.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'}); }
-
-function setSyncState(state) {
-  const dot = document.getElementById('sync-dot');
-  const lbl = document.getElementById('sync-label');
-  dot.className = 'sync-dot' + (state==='saving'?' syncing':state==='error'?' err':'');
-  lbl.textContent = state==='saving'?'Saving…':state==='error'?'Error':'Saved ✓';
-}
+function fmtDate(d)   { return d.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'}); }
 
 async function getLog(dk) {
-  try { const v = await dbGet('log:'+dk); return v ? JSON.parse(v) : {}; }
-  catch(e) { return {}; }
+  try { const v=await dbGet('log:'+dk); return v?JSON.parse(v):{}; } catch(e){return {};}
 }
-async function saveLog(dk, data) {
-  setSyncState('saving');
-  try { await dbSet('log:'+dk, JSON.stringify(data)); setSyncState('saved'); }
-  catch(e) { setSyncState('error'); }
-}
+async function saveLog(dk, data) { await dbSet('log:'+dk, JSON.stringify(data)); }
 
-// ─── Today's log ──────────────────────────────────────────────────────────────
+// ── Today ─────────────────────────────────────────────────
 async function loadToday() {
   document.getElementById('log-loading').style.display='flex';
   document.getElementById('log-content').style.display='none';
-  const log = await getLog(todayKey());
-  ALL_MEDS.forEach(m => {
-    const btn = document.getElementById('cb-'+m.id);
-    const ct  = document.getElementById('ct-'+m.id);
-    if (!btn) return;
-    if (log[m.id]) { btn.classList.add('done'); ct.textContent=fmtTime(log[m.id]); ct.classList.add('filled'); }
-    else { btn.classList.remove('done'); ct.textContent=''; ct.classList.remove('filled'); }
+  const log=await getLog(todayKey());
+  ALL_MEDS.forEach(m=>{
+    const btn=document.getElementById('cb-'+m.id), ct=document.getElementById('ct-'+m.id);
+    if(!btn) return;
+    if(log[m.id]){btn.classList.add('done');ct.textContent=fmtTime(log[m.id]);ct.classList.add('filled');}
+    else{btn.classList.remove('done');ct.textContent='';ct.classList.remove('filled');}
   });
   updateSlotProg(log); updateSummary(log);
   document.getElementById('log-loading').style.display='none';
@@ -439,7 +450,7 @@ async function loadToday() {
 window.toggle = async function(btn, medId) {
   btn.disabled=true;
   const dk=todayKey(), log=await getLog(dk);
-  if (log[medId]) {
+  if(log[medId]){
     delete log[medId]; btn.classList.remove('done');
     document.getElementById('ct-'+medId).textContent='';
     document.getElementById('ct-'+medId).classList.remove('filled');
@@ -453,109 +464,86 @@ window.toggle = async function(btn, medId) {
   updateSlotProg(log); updateSummary(log);
 };
 
-function updateSlotProg(log) {
+function updateSlotProg(log){
   Object.entries(SLOTS).forEach(([k,s])=>{
     const el=document.getElementById('prog-'+k);
     if(el) el.textContent=s.meds.filter(m=>log[m.id]).length+'/'+s.meds.length;
   });
 }
-function updateSummary(log) {
+function updateSummary(log){
   const done=ALL_MEDS.filter(m=>log[m.id]).length;
-  const el=document.getElementById('today-summary');
-  if(el) el.textContent=done+' of 14 taken today';
-  ['s-taken','stat-taken'].forEach(id=>{ const e=document.getElementById(id); if(e) e.textContent=done; });
-  ['s-pct','stat-pct'].forEach(id=>{ const e=document.getElementById(id); if(e) e.textContent=Math.round(done/14*100)+'%'; });
+  const el=document.getElementById('today-summary'); if(el) el.textContent=done+' of 14 taken today';
+  const st=document.getElementById('s-taken'); if(st) st.textContent=done;
+  const sp=document.getElementById('s-pct'); if(sp) sp.textContent=Math.round(done/14*100)+'%';
 }
-
-window.resetToday = async function() {
+window.resetToday=async function(){
   if(!confirm('Reset all checks for today?')) return;
-  await saveLog(todayKey(),{});
-  await loadToday();
+  await saveLog(todayKey(),{}); await loadToday();
 };
 
-// ─── History ──────────────────────────────────────────────────────────────────
+// ── History ───────────────────────────────────────────────
 let histOffset=0;
-window.histNav = async function(d) {
-  histOffset+=d; if(histOffset>0) histOffset=0;
-  await renderHistory();
-};
-async function renderHistory() {
+window.histNav=async function(d){histOffset+=d;if(histOffset>0)histOffset=0;await renderHistory();};
+async function renderHistory(){
   document.getElementById('hist-loading').style.display='flex';
   document.getElementById('hist-content').innerHTML='';
   const d=new Date(); d.setDate(d.getDate()+histOffset);
   document.getElementById('hist-date-label').textContent=fmtDate(d);
-  const log=await getLog(dateKey(d));
-  const isToday=histOffset===0;
+  const log=await getLog(dateKey(d)), isToday=histOffset===0;
   document.getElementById('hist-loading').style.display='none';
   let html='';
   Object.entries(SLOTS).forEach(([k,s])=>{
-    html+=`<div class="card" style="margin-bottom:10px;">
-      <div class="card-head"><span class="slot-icon">${s.icon}</span><span class="slot-title">${s.label}</span></div>
-      <table class="hist-table">
-        <tr><th style="width:38%">Medicine</th><th>Note</th><th>Status</th><th>Time taken</th></tr>`;
+    html+=`<div class="card" style="margin-bottom:10px;"><div class="card-head"><span class="slot-icon">${s.icon}</span><span class="slot-title">${s.label}</span></div><table class="hist-table"><tr><th style="width:38%">Medicine</th><th>Note</th><th>Status</th><th>Time</th></tr>`;
     s.meds.forEach(m=>{
       const ts=log[m.id];
       const badge=ts?`<span class="badge badge-done">✓ Taken</span>`:isToday?`<span class="badge badge-pend">Pending</span>`:`<span class="badge badge-miss">Missed</span>`;
       const time=ts?`<span style="font-size:12px;color:var(--success);font-weight:500;">${fmtTime(ts)}</span>`:'—';
-      html+=`<tr><td style="font-weight:500;color:var(--text)">${m.name}</td><td>${m.note}</td><td>${badge}</td><td>${time}</td></tr>`;
+      html+=`<tr><td style="font-weight:500;">${m.name}</td><td>${m.note}</td><td>${badge}</td><td>${time}</td></tr>`;
     });
     html+=`</table></div>`;
   });
   const taken=ALL_MEDS.filter(m=>log[m.id]).length;
-  html+=`<div style="font-size:13px;color:var(--text-sec);padding:10px;background:var(--surface2);border-radius:var(--radius);border:1px solid var(--border)">${taken} of 14 medicines taken on this day.</div>`;
+  html+=`<div style="font-size:13px;color:var(--text-sec);padding:10px;background:var(--surface2);border-radius:var(--radius);border:1px solid var(--border)">${taken} of 14 taken on this day.</div>`;
   document.getElementById('hist-content').innerHTML=html;
 }
 
-// ─── Progress ─────────────────────────────────────────────────────────────────
+// ── Progress ──────────────────────────────────────────────
 let physioSessions=0;
-
-async function loadProgress() {
-  const log=await getLog(todayKey()); updateSummary(log);
-  const d=Math.max(1,Math.floor((new Date()-START)/86400000)+1);
-  [['5day',d,5],['calcidef',d,30],['2wk',d,14],['8wk',d,56]].forEach(([id,n,total])=>{
-    const pct=Math.min(n/total*100,100);
-    document.getElementById('pb-'+id).style.width=pct+'%';
-    const lbl=id==='8wk'?`Week ${Math.min(Math.ceil(n/7),8)} / 8`:`Day ${Math.min(n,total)} / ${total}`;
-    document.getElementById('pc-'+id).textContent=lbl;
-  });
-  try { const v=await dbGet('physio'); physioSessions=v?parseInt(v):0; } catch(e){}
+async function initPhysio(){
+  try{const v=await dbGet('physio');physioSessions=v?parseInt(v):0;}catch(e){}
   refreshPhysio();
 }
-
-function refreshPhysio() {
+async function loadProgress(){
+  const log=await getLog(todayKey()); updateSummary(log);
+  const d=Math.max(1,Math.floor((new Date()-START)/86400000)+1);
+  [['5day',d,5],['calcidef',d,30],['2wk',d,14],['8wk',d,56]].forEach(([id,n,tot])=>{
+    document.getElementById('pb-'+id).style.width=Math.min(n/tot*100,100)+'%';
+    document.getElementById('pc-'+id).textContent=id==='8wk'?`Week ${Math.min(Math.ceil(n/7),8)} / 8`:`Day ${Math.min(n,tot)} / ${tot}`;
+  });
+  await initPhysio();
+}
+function refreshPhysio(){
   document.getElementById('physio-label').textContent=physioSessions+' done';
   document.getElementById('pb-physio').style.width=Math.round(physioSessions/60*100)+'%';
 }
-
-window.changePhysio = async function(d) {
+window.changePhysio=async function(d){
   physioSessions=Math.max(0,Math.min(60,physioSessions+d));
-  setSyncState('saving');
-  try { await dbSet('physio',String(physioSessions)); setSyncState('saved'); } catch(e){setSyncState('error');}
-  refreshPhysio();
+  await dbSet('physio',String(physioSessions)); refreshPhysio();
 };
 
-// ─── Tab switching ────────────────────────────────────────────────────────────
-window.switchTab = async function(id, btn) {
+// ── Tabs ──────────────────────────────────────────────────
+window.switchTab=async function(id,btn){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById(id).classList.add('active');
+  btn.classList.add('active'); document.getElementById(id).classList.add('active');
   if(id==='history') await renderHistory();
   if(id==='progress') await loadProgress();
 };
 
-// ─── Init ─────────────────────────────────────────────────────────────────────
-document.getElementById('today-date-label').textContent =
+// ── Init ──────────────────────────────────────────────────
+document.getElementById('today-date-label').textContent=
   new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-
-(async()=>{
-  const hasFirebase = await initFirebase();
-  if(!hasFirebase) setSyncState('saved'); // using localStorage
-  await loadToday();
-  try { const v=await dbGet('physio'); physioSessions=v?parseInt(v):0; refreshPhysio(); } catch(e){}
-  // init history date label
-  document.getElementById('hist-date-label').textContent=fmtDate(new Date());
-})();
+document.getElementById('hist-date-label').textContent=fmtDate(new Date());
 </script>
 </body>
 </html>
